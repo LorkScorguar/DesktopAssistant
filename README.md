@@ -6,3 +6,5 @@ Goal is to have a cross-platform simple desktop assistant that can do:
  - launch a program
  - launch a command
  - set a timer
+ - Use Google Translate
+ - Direct Google/Wikipedia search
