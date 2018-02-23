@@ -69,7 +69,8 @@ def run():
     wwidth=300
     wheight=70
     root.lift()
-    root.overrideredirect(True) #to remove window decoration
+    if platform.system=="Windows":
+        root.overrideredirect(True) #to remove window decoration
     root.attributes("-topmost",True)
     root.attributes("-alpha","0.8")
     root.configure(background="black")
