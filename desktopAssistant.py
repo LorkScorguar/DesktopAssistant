@@ -7,7 +7,8 @@ import time
 from tkinter import *
 
 dapplicationsWin={"Chrome":"C:\Program Files (x86)\Google\Chrome\Application\chrome.exe",
-"Firefox":"C:\Program Files (x86)\Mozilla Firefox\firefox.exe"}
+"Firefox":"C:\Program Files (x86)\Mozilla Firefox\\firefox.exe"
+"Notepad":"C:\WINDOWS\system32\\notepad.exe"}
 dapplicationsLin={}
 
 def notifyWin(text):
@@ -36,12 +37,23 @@ def notify(text):
 
 def analyse(data):
     res=""
-    if re.search("[0-9+-\/\*]+",data):
-        res=eval(data)
-    elif data in dapplications.keys():
-        subprocess.run(dapplications[data])
+    if data in dapplicationsWin.keys() and platform.system()=='Windows':
+        subprocess.run(dapplicationsWin[data])
+    elif data in dapplicationsLin.keys() and platform.system()=='Linux':
+        subprocess.run(dapplicationsLin[data])
     if res!="":
         notify(res)
+
+def complete(data,label):
+    res=""
+    if re.search("[0-9+-\/\*]+",data):
+        try:
+            res=eval(data)
+            label.config(text=res)
+        except:
+            pass
+    elif data=="":
+        label.config(text=res)
 
 def run():
     root = Tk()
@@ -50,13 +62,17 @@ def run():
     e.grid()
     e.focus()
     e.bind("<Return>", lambda e: root.destroy())
+    label = Label(root, text=text.get(), foreground="white", background="black")
+    label.grid()
+    text.trace("w", lambda name, index, mode, sv=text: complete(text.get(),label))
     wwidth=100
-    wheight=36
+    wheight=38
     root.lift()
-    #root.overrideredirect(True) #to remove window decoration
+    root.overrideredirect(True) #to remove window decoration
     root.attributes("-topmost",True)
     root.attributes("-transparentcolor", "white")
-    root.attributes("-alpha","0.8")
+    root.attributes("-alpha","0.7")
+    root.configure(background="black")
     width=root.winfo_screenwidth()
     height=root.winfo_screenheight()
     root.geometry('%dx%d+%d+%d' % (wwidth,wheight,width/2-wwidth,height/2-wheight))
