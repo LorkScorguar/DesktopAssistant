@@ -6,10 +6,13 @@ import sys
 import time
 from tkinter import *
 
-dapplicationsWin={"Chrome":"C:\Program Files (x86)\Google\Chrome\Application\chrome.exe",
-"Firefox":"C:\Program Files (x86)\Mozilla Firefox\\firefox.exe",
-"Notepad":"C:\WINDOWS\system32\\notepad.exe"}
-dapplicationsLin={"Chrome":"/usr/bin/google-chrome"}
+dapplicationsWin={"chrome":"C:\Program Files (x86)\Google\Chrome\Application\chrome.exe",
+"firefox":"C:\Program Files (x86)\Mozilla Firefox\\firefox.exe",
+"notepad":"C:\WINDOWS\system32\\notepad.exe"}
+dapplicationsLin={"chrome":"/usr/bin/google-chrome"}
+
+wwidth=300
+wheight=27
 
 def notifyWin(text):
     root = Tk()
@@ -37,23 +40,28 @@ def notify(text):
 
 def analyse(data):
     res=""
-    if data in dapplicationsWin.keys() and platform.system()=='Windows':
-        subprocess.run(dapplicationsWin[data])
-    elif data in dapplicationsLin.keys() and platform.system()=='Linux':
-        subprocess.run(dapplicationsLin[data])
+    if data.lower() in dapplicationsWin.keys() and platform.system()=='Windows':
+        subprocess.run(dapplicationsWin[data.lower()])
+    elif data.lower() in dapplicationsLin.keys() and platform.system()=='Linux':
+        subprocess.run(dapplicationsLin[data.lower()])
     if res!="":
         notify(res)
 
-def complete(data,label):
+def complete(data,label,root):
     res=""
+    width=root.winfo_screenwidth()
+    height=root.winfo_screenheight()
+    wheight2=root.winfo_reqheight()
     if re.search("[0-9+-\/\*]+",data):
         try:
             res=eval(data)
             label.config(text=res)
+            root.geometry('%dx%d+%d+%d' % (wwidth,wheight2,width/2-wwidth,height/2-wheight))
         except:
             pass
     elif data=="":
         label.config(text=res)
+        root.geometry('%dx%d+%d+%d' % (wwidth,wheight,width/2-wwidth,height/2-wheight))
 
 def run():
     root = Tk()
@@ -65,9 +73,7 @@ def run():
     e.bind("<Escape>", lambda e: root.destroy())
     label = Label(root, text=text.get(), foreground="white", background="black", font=("Courier",20))
     label.grid()
-    text.trace("w", lambda name, index, mode, sv=text: complete(text.get(),label))
-    wwidth=300
-    wheight=70
+    text.trace("w", lambda name, index, mode, sv=text: complete(text.get(),label,root))
     root.lift()
     if platform.system=="Windows":
         root.overrideredirect(True) #to remove window decoration
