@@ -9,7 +9,7 @@ from tkinter import *
 dapplicationsWin={"Chrome":"C:\Program Files (x86)\Google\Chrome\Application\chrome.exe",
 "Firefox":"C:\Program Files (x86)\Mozilla Firefox\\firefox.exe",
 "Notepad":"C:\WINDOWS\system32\\notepad.exe"}
-dapplicationsLin={}
+dapplicationsLin={"Chrome":"/usr/bin/google-chrome"}
 
 def notifyWin(text):
     root = Tk()
@@ -71,7 +71,6 @@ def run():
     root.lift()
     root.overrideredirect(True) #to remove window decoration
     root.attributes("-topmost",True)
-    root.attributes("-transparentcolor", "white")
     root.attributes("-alpha","0.8")
     root.configure(background="black")
     width=root.winfo_screenwidth()
