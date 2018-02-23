@@ -7,7 +7,7 @@ import time
 from tkinter import *
 
 dapplicationsWin={"Chrome":"C:\Program Files (x86)\Google\Chrome\Application\chrome.exe",
-"Firefox":"C:\Program Files (x86)\Mozilla Firefox\\firefox.exe"
+"Firefox":"C:\Program Files (x86)\Mozilla Firefox\\firefox.exe",
 "Notepad":"C:\WINDOWS\system32\\notepad.exe"}
 dapplicationsLin={}
 
@@ -58,20 +58,21 @@ def complete(data,label):
 def run():
     root = Tk()
     text=StringVar()
-    e = Entry(root, textvariable=text, foreground="white", background="black")
+    e = Entry(root, textvariable=text, foreground="white", background="black", font=("Courier",20))
     e.grid()
     e.focus()
     e.bind("<Return>", lambda e: root.destroy())
-    label = Label(root, text=text.get(), foreground="white", background="black")
+    e.bind("<Escape>", lambda e: root.destroy())
+    label = Label(root, text=text.get(), foreground="white", background="black", font=("Courier",20))
     label.grid()
     text.trace("w", lambda name, index, mode, sv=text: complete(text.get(),label))
-    wwidth=100
-    wheight=38
+    wwidth=300
+    wheight=70
     root.lift()
     root.overrideredirect(True) #to remove window decoration
     root.attributes("-topmost",True)
     root.attributes("-transparentcolor", "white")
-    root.attributes("-alpha","0.7")
+    root.attributes("-alpha","0.8")
     root.configure(background="black")
     width=root.winfo_screenwidth()
     height=root.winfo_screenheight()
