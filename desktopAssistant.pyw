@@ -9,15 +9,16 @@ from tkinter import *
 dapplicationsWin={"chrome":"C:\Program Files (x86)\Google\Chrome\Application\chrome.exe",
 "firefox":"C:\Program Files (x86)\Mozilla Firefox\\firefox.exe",
 "notepad":"C:\WINDOWS\system32\\notepad.exe",
-"git": "C:\Program Files\Git\git-bash.exe --cd-to-home"}
+"git": "C:\Program Files\Git\git-bash.exe --cd-to-home",
+"ping":"ping -n 1 %ARG%"}
 dapplicationsLin={"chrome":"/usr/bin/google-chrome"}
 
 wwidth=300
 wheight=27
 
-def notifyWin(text,title):
+def notifyWin(text,title,fg,bg):
     root = Tk()
-    label = Label(root, text=text, foreground="white", background="black", padx="10", pady="4")
+    label = Label(root, text=text, foreground=fg, background=bg, padx="10", pady="4")
     label.grid()
     wwidth=25
     wheight=26
@@ -34,20 +35,40 @@ def notifyLin(text,title):
     notify2.init("Luchiana")
     notify2.Notification(title,text)
 
-def notify(text,title="Desktop Assistant"):
+def notify(text,title="Desktop Assistant",fg="gray",bg="black"):
     if platform.system()=="Windows":
-        notifyWin(text,title)
+        notifyWin(text,title,fg,bg)
     else:
         notifyLin(text,title)
 
 def analyse(data):
     res=""
-    if data.lower() in dapplicationsWin.keys() and platform.system()=='Windows':
-        subprocess.run(dapplicationsWin[data.lower()])
-    elif data.lower() in dapplicationsLin.keys() and platform.system()=='Linux':
-        subprocess.run(dapplicationsLin[data.lower()])
+    tmp=data.split(" ")
+    if tmp[0].lower() in dapplicationsWin.keys() and platform.system()=='Windows':
+        if not "%ARG%" in dapplicationsWin[tmp[0].lower()]:
+            subprocess.run(dapplicationsWin[tmp[0].lower()])
+        else:
+            cmd=dapplicationsWin[tmp[0].lower()]
+            del tmp[0]
+            cmd=cmd.replace("%ARG%",' '.join(tmp))
+            output=subprocess.run(cmd)
+            if output.returncode==0:
+                notify(cmd+" succeeded","Command","white","green")
+            else:
+                notify(cmd+" failed","Command","white","red")
+    elif tmp.lower()[0] in dapplicationsLin.keys() and platform.system()=='Linux':
+        if not "%ARG%" in dapplicationsLin[tmp[0].lower()]:
+            subprocess.run(dapplicationsLin[tmp[0].lower()])
+        else:
+            cmd=dapplicationsLin[tmp[0].lower()]
+            del tmp[0]
+            cmd=cmd.replace("%ARG%",' '.join(tmp))
+            output=subprocess.run(cmd)
+            if output.returncode==0:
+                notify(cmd+" succeeded")
+            else:
+                notify(cmd+" failed")
     elif re.search("timer",data):
-        tmp=data.split(" ")
         time.sleep(int(tmp[1]))
         del tmp[0]
         del tmp[1]
