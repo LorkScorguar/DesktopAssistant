@@ -8,13 +8,14 @@ from tkinter import *
 
 dapplicationsWin={"chrome":"C:\Program Files (x86)\Google\Chrome\Application\chrome.exe",
 "firefox":"C:\Program Files (x86)\Mozilla Firefox\\firefox.exe",
-"notepad":"C:\WINDOWS\system32\\notepad.exe"}
+"notepad":"C:\WINDOWS\system32\\notepad.exe",
+"git": "C:\Program Files\Git\git-bash.exe --cd-to-home"}
 dapplicationsLin={"chrome":"/usr/bin/google-chrome"}
 
 wwidth=300
 wheight=27
 
-def notifyWin(text):
+def notifyWin(text,title):
     root = Tk()
     label = Label(root, text=text, foreground="white", background="black", padx="10", pady="4")
     label.grid()
@@ -22,21 +23,22 @@ def notifyWin(text):
     wheight=26
     root.lift()
     root.attributes("-topmost",True)
+    root.title(title)
     width=root.winfo_screenwidth()
     height=root.winfo_screenheight()
     root.geometry('%dx%d+%d+%d' % (wwidth,wheight,width-140,height-105))
     root.mainloop()
 
-def notifyLin(text):
+def notifyLin(text,title):
     import notify2
     notify2.init("Luchiana")
-    notify2.Notification("Desktop Assistant",text)
+    notify2.Notification(title,text)
 
-def notify(text):
+def notify(text,title="Desktop Assistant"):
     if platform.system()=="Windows":
-        notifyWin(text)
+        notifyWin(text,title)
     else:
-        notifyLin(text)
+        notifyLin(text,title)
 
 def analyse(data):
     res=""
@@ -44,6 +46,12 @@ def analyse(data):
         subprocess.run(dapplicationsWin[data.lower()])
     elif data.lower() in dapplicationsLin.keys() and platform.system()=='Linux':
         subprocess.run(dapplicationsLin[data.lower()])
+    elif re.search("timer",data):
+        tmp=data.split(" ")
+        time.sleep(int(tmp[1]))
+        del tmp[0]
+        del tmp[1]
+        notify(str(' '.join(tmp)),"Timer End")
     if res!="":
         notify(res)
 
