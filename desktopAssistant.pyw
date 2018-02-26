@@ -75,7 +75,7 @@ def run():
     label.grid()
     text.trace("w", lambda name, index, mode, sv=text: complete(text.get(),label,root))
     root.lift()
-    if platform.system=="Windows":
+    if platform.system()=="Windows":
         root.overrideredirect(True) #to remove window decoration
     root.attributes("-topmost",True)
     root.attributes("-alpha","0.8")
