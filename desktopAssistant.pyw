@@ -75,7 +75,7 @@ def analyse(data):
             tsleep=int(tmp[1])
         time.sleep(tsleep)
         del tmp[0]
-        del tmp[1]
+        del tmp[0]
         notify(str(' '.join(tmp)),"Timer End")
     if res!="":
         notify(res)
