@@ -69,7 +69,11 @@ def analyse(data):
             else:
                 notify(cmd+" failed")
     elif re.search("timer",data):
-        time.sleep(int(tmp[1]))
+        if tmp[1][-1:]=="m":
+            tsleep=int(tmp[1][:-1])*60
+        else:
+            tsleep=int(tmp[1])
+        time.sleep(tsleep)
         del tmp[0]
         del tmp[1]
         notify(str(' '.join(tmp)),"Timer End")
