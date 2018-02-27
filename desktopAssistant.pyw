@@ -56,7 +56,7 @@ def analyse(data):
                 notify(cmd+" succeeded","Command","white","green")
             else:
                 notify(cmd+" failed","Command","white","red")
-    elif tmp.lower()[0] in dapplicationsLin.keys() and platform.system()=='Linux':
+    elif tmp[0].lower() in dapplicationsLin.keys() and platform.system()=='Linux':
         if not "%ARG%" in dapplicationsLin[tmp[0].lower()]:
             subprocess.run(dapplicationsLin[tmp[0].lower()])
         else:
