@@ -14,7 +14,7 @@ dapplicationsWin={"chrome":"C:\Program Files (x86)\Google\Chrome\Application\chr
 dapplicationsLin={"chrome":"/usr/bin/google-chrome"}
 
 wwidth=300
-wheight=27
+wheight=31
 
 def notifyWin(text,title,fg,bg):
     root = Tk()
