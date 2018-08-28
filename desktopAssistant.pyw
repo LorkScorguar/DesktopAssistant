@@ -1,3 +1,4 @@
+# coding: utf-8
 import datetime
 import platform
 import re
@@ -6,11 +7,11 @@ import sys
 import time
 from tkinter import *
 
-dapplicationsWin={"chrome":"C:\Program Files (x86)\Google\Chrome\Application\chrome.exe",
-"firefox":"C:\Program Files (x86)\Mozilla Firefox\\firefox.exe",
-"notepad":"C:\WINDOWS\system32\\notepad.exe",
-"git": "C:\Program Files\Git\git-bash.exe --cd-to-home",
-"ping":"ping -n 1 %ARG%"}
+dapplicationsWin={"chrome":r"C:\Program Files (x86)\Google\Chrome\Application\chrome.exe",
+"firefox":r"C:\Program Files (x86)\Mozilla Firefox\\firefox.exe",
+"notepad":r"C:\WINDOWS\system32\\notepad.exe",
+"git":r"C:\Users\pied\AppData\Local\Programs\Git\\git-bash.exe --cd-to-home",
+"ping":r"ping -n 1 %ARG%"}
 dapplicationsLin={"chrome":"/usr/bin/google-chrome"}
 
 wwidth=300
